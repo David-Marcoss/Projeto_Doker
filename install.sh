@@ -1,4 +1,4 @@
-virtual env -t python3 venv;
+virtualenv venv;
 . venv/bin/activate;
-pip install -r requiriments.txt;
+pip install -r requirements.txt;
 pre-commit install; 
