@@ -1,5 +1,8 @@
-from  flask  import  Flask 
+from  flask  import  Flask , request
 from flask import render_template
+#import requests
+from src import enderecos_op
+
 
 app  =  Flask( __name__ )
 
@@ -11,6 +14,24 @@ def  hello_world():
 @app.route('/hello/<name>')
 def hello(name=None):
     return render_template('index.html', name="david")
+
+@app.route('/insert/',methods=["POST"])
+def insert():
+
+    #capturando requisição
+    body = request.json
+    cep = body['cep']
+
+    #fazendo conexão com api externa
+    req = request.get(f'https://viacep.com.br/ws/{cep}/json/')
+    endereco = req.json()
+
+    #inserindo os dados obtidos via api no bd
+    op = enderecos_op()
+    op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco["uf"])
+
+    return "operação concluida!"
+
 
 
 
