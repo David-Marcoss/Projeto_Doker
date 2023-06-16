@@ -1,5 +1,6 @@
 from sqlalchemy import Column,Integer,String
-from config import Base
+from src.config import Base
+
 
 #declaração da tabela 
 class endereco(Base):

@@ -1,6 +1,6 @@
 from  flask  import  Flask , request
 from flask import render_template
-#import requests
+import requests
 from src import enderecos_op
 
 
@@ -22,13 +22,16 @@ def insert():
     body = request.json
     cep = body['cep']
 
+    print(body)
+    
     #fazendo conexão com api externa
-    req = request.get(f'https://viacep.com.br/ws/{cep}/json/')
+    req = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
     endereco = req.json()
 
     #inserindo os dados obtidos via api no bd
     op = enderecos_op()
     op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco["uf"])
+
 
     return "operação concluida!"
 

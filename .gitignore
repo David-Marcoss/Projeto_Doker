@@ -152,3 +152,4 @@ cython_debug/
 #.idea/
 
 diagrama_db.mwb
+comandos_docker.txt

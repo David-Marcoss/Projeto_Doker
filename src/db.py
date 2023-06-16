@@ -1,5 +1,5 @@
-from entidades.models import endereco as EnderecoModel
-from config.config import DB_connection
+'''from .entidades.models import endereco as EnderecoModel
+from .config.connection import DB_connection
 
 #operações com o bd
 class enderecos_op:
@@ -12,3 +12,4 @@ class enderecos_op:
             db.session.add(new_endereco)
             db.session.commit()
 
+'''
