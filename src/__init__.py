@@ -8,6 +8,15 @@ class enderecos_op:
     def insert(self,cep,rua,cidade,estado):
         #whith abre uma conexao com o bd e encerra a conexao depois que todos os comandos forem execultados
         with DB_connection() as db:
-            new_endereco = EnderecoModel(cep=cep,rua=rua,cidade=cidade,estado=estado)
-            db.session.add(new_endereco)
-            db.session.commit()
+            
+            try:
+                new_endereco = EnderecoModel(cep=cep,rua=rua,cidade=cidade,estado=estado)
+                db.session.add(new_endereco)
+                db.session.commit()
+                
+
+                return True
+            
+            except:
+        
+                return False

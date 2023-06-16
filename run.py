@@ -28,12 +28,15 @@ def insert():
     req = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
     endereco = req.json()
 
-    #inserindo os dados obtidos via api no bd
-    op = enderecos_op()
-    op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco["uf"])
+    if endereco != {'erro': True}:
+        #inserindo os dados obtidos via api no bd
+        op = enderecos_op()
+        op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco["uf"])
 
-
-    return "operação concluida!"
+        return "Operação concluida !!"
+        
+    else:
+        return "Cep não encontrado!"
 
 
 
