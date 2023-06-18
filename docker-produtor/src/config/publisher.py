@@ -12,7 +12,8 @@ class RabbitmqPublisher:
         self.__exchange = "My_exchange"
         self.__routing_key = ""
         self.__channel = self.__create_channel()
-        self.__bind = self.__create_bind()
+        self.__create_exchange()
+        self.__create_bind()
 
     def __create_channel(self):
         connection_parameters = pika.ConnectionParameters(
@@ -25,7 +26,18 @@ class RabbitmqPublisher:
         )
 
         channel = pika.BlockingConnection(connection_parameters).channel()
+        
         return channel
+
+    def __create_exchange(self):
+        self.__channel.exchange_declare(
+            exchange=self.__exchange,
+            exchange_type='direct',
+            passive=False,
+            durable=True,
+            auto_delete=False
+        )
+        self.__channel.queue_declare(queue=self.__queue, durable=True)
     
     def __create_bind(self):
         self.__channel.queue_bind(
@@ -43,6 +55,3 @@ class RabbitmqPublisher:
                 delivery_mode=2
             )
         )
-
-rabbitmq_publisher = RabbitmqPublisher()
-rabbitmq_publisher.send_message("64601679")
