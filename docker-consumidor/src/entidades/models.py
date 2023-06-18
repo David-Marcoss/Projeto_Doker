@@ -10,6 +10,7 @@ class endereco(Base):
     idenderecos = Column(Integer,primary_key=True)
     cep = Column(String,unique=true)
     rua = Column(String)
+    bairro = Column(String)
     cidade = Column(String)
     estado = Column(String)
 
