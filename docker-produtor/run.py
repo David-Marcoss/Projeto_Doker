@@ -1,8 +1,6 @@
 from  flask  import  Flask , request
 from flask import render_template
-import requests
-from src import enderecos_op
-
+from src.config.publisher import RabbitmqPublisher
 
 app  =  Flask( __name__ )
 
@@ -15,30 +13,17 @@ def  hello_world():
 def hello(name=None):
     return render_template('index.html', name="david")
 
-@app.route('/insert/',methods=["POST"])
-def insert():
+@app.route('/insert/',methods=["POST","GET"])
+def get_data():
+    if request.method == "POST":
+        cep = request.form["cep"]
 
-    #capturando requisição
-    body = request.json
-    cep = body['cep']
+        rabbitmq_publisher = RabbitmqPublisher()
+        rabbitmq_publisher.send_message(cep)
 
-    print(body)
+        return  f'cep {cep}'
     
-    #fazendo conexão com api externa
-    req = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
-    endereco = req.json()
-
-    if endereco != {'erro': True}:
-        #inserindo os dados obtidos via api no bd
-        op = enderecos_op()
-        op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco["uf"])
-
-        return "Operação concluida !!"
-        
-    else:
-        return "Cep não encontrado!"
-
-
+    return render_template('home.html')
 
 
 if  __name__  ==  '__main__' : 
