@@ -50,6 +50,9 @@ class RabbitmqConsumer:
 
         cep = str(body, 'utf-8')
 
+        cep = cep[1:-1].replace("-",'')
+
+        print(cep)
         
         #fazendo conexão com api externa
         req = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
