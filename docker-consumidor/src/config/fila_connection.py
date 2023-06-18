@@ -56,22 +56,29 @@ class RabbitmqConsumer:
         
         #fazendo conexão com api externa
         req = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
-        endereco = req.json()
 
-        if endereco != {'erro': True}:
-            #inserindo os dados obtidos via api no bd
-            op = enderecos_op()
-            op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco['localidade'],endereco["uf"])
+        if req:
+            endereco = req.json()
 
-            print(f"Operação concluida !!\n")
+            if endereco != {'erro': True}:
+                #inserindo os dados obtidos via api no bd
+                op = enderecos_op()
+                op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco['localidade'],endereco["uf"])
 
-            return True
-            
+                print(f"Operação concluida !!\n")
+
+                return True
+                
+            else:
+                print("Cep não encontrado!\n")
+                
+                return False
         else:
-            print("Cep não encontrado!\n")
-            
+            print("Entrada invalida\n")
+                
             return False
-        
+            
+            
     def start(self):
         print(f'Listen RabbitMQ on Port 5672')
         self.__channel.start_consuming()
