@@ -9,7 +9,7 @@ def get_data():
         
         cep = request.form.get('cep')
 
-        return  requests.post("http://172.17.0.5:5000",json={"cep":cep}).text
+        return  requests.post("http://172.19.0.6:5000",json={"cep":cep}).text
     
  
     return render_template("home.html")

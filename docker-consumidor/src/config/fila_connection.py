@@ -10,7 +10,7 @@ from src import enderecos_op
 #que é a função responsavel por consulmir mensages da fila
 class RabbitmqConsumer:
     def __init__(self) -> None:
-        self.__host = '172.17.0.2'
+        self.__host = '172.19.0.2'
         self.__port = 5672
         self.__username = "guest"
         self.__password = "guest"
