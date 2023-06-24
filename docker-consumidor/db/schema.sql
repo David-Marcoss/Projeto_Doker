@@ -5,7 +5,7 @@ USE `mydb` ;
 -- Table `mydb`.`enderecos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`enderecos` (
-  `idenderecos` INT NOT NULL,
+  `idenderecos` INT NOT NULL AUTO_INCREMENT,
   `cep` VARCHAR(45) NOT NULL,
   `rua` VARCHAR(45) NULL,
   `bairro` VARCHAR(45) NULL,
