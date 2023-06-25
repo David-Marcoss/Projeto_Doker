@@ -153,3 +153,5 @@ cython_debug/
 
 diagrama_db.mwb
 comandos_docker.txt
+tutorial_exec.txt
+.dockerignore
