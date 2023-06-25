@@ -1,3 +1,4 @@
+import sys
 import pika
 import requests
 import os
@@ -5,16 +6,15 @@ from src import enderecos_op
 
 
 
-
 #classe responsavel por fazer conexão com fila , recebe callback
 #que é a função responsavel por consulmir mensages da fila
 class RabbitmqConsumer:
     def __init__(self) -> None:
-        self.__host = '172.19.0.2'
+        self.__host = "rabbitmq"
         self.__port = 5672
         self.__username = "guest"
         self.__password = "guest"
-        self.__queue = 'My_fila'
+        self.__queue = "My_fila"
         self.__channel = self.__create_channel()
 
     #cria conexão com a flia
@@ -29,6 +29,7 @@ class RabbitmqConsumer:
         )
 
         channel = pika.BlockingConnection(connection_parameters).channel()
+
         channel.queue_declare(
             queue=self.__queue,
             durable=True
@@ -65,20 +66,20 @@ class RabbitmqConsumer:
                 op = enderecos_op()
                 op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco['localidade'],endereco["uf"])
 
-                print(f"Operação concluida !!\n")
+                print(f"Operação concluida !!\n", file=sys.stderr)
 
                 return True
                 
             else:
-                print("Cep não encontrado!\n")
+                print("Cep não encontrado!\n", file=sys.stderr)
                 
                 return False
         else:
-            print("Entrada invalida\n")
+            print("Entrada invalida\n", file=sys.stderr)
                 
             return False
             
             
     def start(self):
-        print(f'Listen RabbitMQ on Port 5672')
+        print(f'Listen RabbitMQ on Port 5672', file=sys.stderr)
         self.__channel.start_consuming()
