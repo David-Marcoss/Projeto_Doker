@@ -10,7 +10,7 @@ def get_data():
         
         cep = request.form.get('cep')
         
-        print('Dado enviado para o produtor !!\n', file=sys.stderr)
+        print(f'{cep}:Dado enviado para o produtor !!\n', file=sys.stderr)
 
         try:
 

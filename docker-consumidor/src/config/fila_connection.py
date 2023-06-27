@@ -55,30 +55,36 @@ class RabbitmqConsumer:
 
         print(cep)
         
-        #fazendo conexão com api externa
-        req = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
+        try: 
+        
+            #fazendo conexão com api externa
+            req = requests.get(f'https://viacep.com.br/ws/{cep}/json/')
 
-        if req:
-            endereco = req.json()
+            if req:
+                endereco = req.json()
 
-            if endereco != {'erro': True}:
-                #inserindo os dados obtidos via api no bd
-                op = enderecos_op()
-                op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco['localidade'],endereco["uf"])
+                if endereco != {'erro': True}:
+                    #inserindo os dados obtidos via api no bd
+                    op = enderecos_op()
+                    op.insert(endereco["cep"],endereco["logradouro"],endereco["bairro"],endereco['localidade'],endereco["uf"])
 
-                print(f"Operação concluida !!\n", file=sys.stderr)
+                    print(f"Operação concluida !!\n", file=sys.stderr)
 
-                return True
-                
+                    return True
+                    
+                else:
+                    print("Cep não encontrado!\n", file=sys.stderr)
+                    
+                    return False
             else:
-                print("Cep não encontrado!\n", file=sys.stderr)
-                
+                print("Entrada invalida\n", file=sys.stderr)
+                    
                 return False
-        else:
-            print("Entrada invalida\n", file=sys.stderr)
-                
-            return False
+        except:
             
+            print("Não foi possivel conectar com a api!!\n", file=sys.stderr)
+
+            return False        
             
     def start(self):
         print(f'Listen RabbitMQ on Port 5672', file=sys.stderr)
