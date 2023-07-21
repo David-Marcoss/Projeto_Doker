@@ -1,6 +1,11 @@
 # Projeto_Doker
   Uma aplicação para consulta de endereço utilizando o ceep via api,  a aplicação será distribuida em multiplos containers usando docker, a aplicação é constituida por 5 containers.
  
+ ## - Arquitetura da Aplicação:
+
+ ![myimage-alt-tag](./img/ArquiteturaProjetoDocker.jpeg)
+
+## - Descrição dos Containers
  - <strong>Container Ator</strong>: Uma aplicação web implementada com flask, por onde o usuario pode enviar seu cep, apartir de uma requisição recebida envia a requisição para o container produtor.
 
  - <strong>Container Produtor</strong>: Uma aplicação implementada com flask, que recebe requisições do Container Ator e envia para uma fila rabbitmq.
